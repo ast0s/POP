@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<Locations >
+  <Project>
+    <vfs_file>D:\Projects\Ada\lab1pop.gpr</vfs_file>
+    <file_marker column=" 40" line=" 5" >
+      <vfs_project>D:\Projects\Ada\lab1pop.gpr</vfs_project>
+      <vfs_file>D:\Projects\Ada\src\main.adb</vfs_file>
+    </file_marker>
+    <file_marker current="true" column=" 45" line=" 11" >
+      <vfs_project>D:\Projects\Ada\lab1pop.gpr</vfs_project>
+      <vfs_file>D:\Projects\Ada\src\main.adb</vfs_file>
+    </file_marker>
+  </Project>
+</Locations>

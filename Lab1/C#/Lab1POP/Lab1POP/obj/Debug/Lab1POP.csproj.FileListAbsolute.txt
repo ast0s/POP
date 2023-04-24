@@ -1,0 +1,8 @@
+D:\Projects\C#\Lab1POP\Lab1POP\obj\Debug\Lab1POP.csproj.AssemblyReference.cache
+D:\Projects\C#\Lab1POP\Lab1POP\obj\Debug\Lab1POP.csproj.SuggestedBindingRedirects.cache
+D:\Projects\C#\Lab1POP\Lab1POP\obj\Debug\Lab1POP.csproj.CoreCompileInputs.cache
+D:\Projects\C#\Lab1POP\Lab1POP\bin\Debug\Lab1POP.exe.config
+D:\Projects\C#\Lab1POP\Lab1POP\bin\Debug\Lab1POP.exe
+D:\Projects\C#\Lab1POP\Lab1POP\bin\Debug\Lab1POP.pdb
+D:\Projects\C#\Lab1POP\Lab1POP\obj\Debug\Lab1POP.exe
+D:\Projects\C#\Lab1POP\Lab1POP\obj\Debug\Lab1POP.pdb
