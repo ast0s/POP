@@ -21,8 +21,10 @@ procedure Main is
 
       for I in 1..10 loop
          Put_Line("Philosopher " & Id'Img & " thinking " & I'Img & " time");
-
+         
          Waiter.Seize;
+         Put_Line("Philosopher " & Id'Img & " asked the waiter to bring him cutlery");
+         
          Forks(Id_Left_Fork).Seize;
          Put_Line("Philosopher " & Id'Img & " took left fork");
          Forks(Id_Right_Fork).Seize;
@@ -34,6 +36,8 @@ procedure Main is
          Forks(Id_Right_Fork).Release;
          Put_Line("Philosopher " & Id'Img & " put left fork");
          Forks(Id_Left_Fork).Release;
+         
+         Put_Line("Philosopher " & Id'Img & " was finished serving");
          Waiter.Release;
       end loop;
    end Philosopher;
