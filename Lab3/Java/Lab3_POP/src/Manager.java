@@ -3,16 +3,18 @@ import java.util.List;
 import java.util.concurrent.Semaphore;
 
 public class Manager {
-    int storageSize;
-    public Semaphore access;
-    public Semaphore full;
-    public Semaphore empty;
-    public volatile int itemTarget;
-    public volatile int itemProduced;
-    public volatile int itemConsumed;
+    public static int storageSize;
+    public static Semaphore access;
+    public static Semaphore full;
+    public static Semaphore empty;
+    public static Semaphore accessProducerProduced;
+    public static Semaphore accessConsumerConsumed;
+    public static volatile int itemTarget;
+    public static volatile int itemProduced;
+    public static volatile int itemConsumed;
 
     private int lastIndex = 0;
-    public List<String> storage;
+    public static List<String> storage;
 
     public Manager(int storageSize, int itemTarget) {
         this.storageSize = storageSize;
@@ -22,6 +24,8 @@ public class Manager {
         access = new Semaphore(1);
         full = new Semaphore(storageSize);
         empty = new Semaphore(0);
+        accessProducerProduced = new Semaphore(1);
+        accessConsumerConsumed = new Semaphore(1);
         storage = new ArrayList<>();
     }
 

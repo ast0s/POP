@@ -8,32 +8,31 @@ procedure Main is
    package String_Lists is new Indefinite_Doubly_Linked_Lists (String);
    use String_Lists;
 
+   StorageSize : Integer := 4;
+   WorkTarget : Integer := 16;
+   ProducersCount : Integer := 2;
+   ConsumersCount : Integer := 2;
 
-   procedure Init (StorageSize : in Integer; ItemTarget : in Integer;
-                   ProducersCount : in Integer; ConsumersCount : in Integer) is
-      Storage : List;
+   Storage : List;
+   Access_Storage : Counting_Semaphore (1, Default_Ceiling);
+   Full_Storage   : Counting_Semaphore (StorageSize, Default_Ceiling);
+   Empty_Storage  : Counting_Semaphore (0, Default_Ceiling);
 
-      Access_Storage : Counting_Semaphore (1, Default_Ceiling);
-      Full_Storage   : Counting_Semaphore (StorageSize, Default_Ceiling);
-      Empty_Storage  : Counting_Semaphore (0, Default_Ceiling);
+   ItemsDone : Integer := 0;
+   Access_ItemsDone : Counting_Semaphore (1, Default_Ceiling);
+   ItemsConsumed : Integer := 0;
+   Access_ItemsConsumed : Counting_Semaphore (1, Default_Ceiling);
 
-      ItemsDone : Integer := 0;
-      ItemsConsumed : Integer := 0;
+   task type ProducerTask;
+   task body ProducerTask is
+   begin
 
-      task type ProducerTask;
-      task body ProducerTask is
-      begin
-
-         while ItemsDone < ItemTarget loop
-
+      while ItemsDone < WorkTarget loop
+         Access_ItemsDone.Seize;
+         if ItemsDone < WorkTarget then
             Full_Storage.Seize;
-            delay 0.5;
+            delay 0.25;
             Access_Storage.Seize;
-
-            if ItemsDone >= ItemTarget then
-               Access_Storage.Release;
-               exit;
-            end if;
 
             Storage.Append ("item " & ItemsDone'Img);
             Put_Line ("Producer add item " & ItemsDone'Img);
@@ -41,26 +40,23 @@ procedure Main is
 
             Access_Storage.Release;
             Empty_Storage.Release;
+         end if;
+         Access_ItemsDone.Release;
+      end loop;
 
-         end loop;
-
-      end ProducerTask;
+   end ProducerTask;
 
 
-      task type ConsumerTask;
-      task body ConsumerTask is
-      begin
+   task type ConsumerTask;
+   task body ConsumerTask is
+   begin
 
-         while ItemsConsumed < ItemTarget loop
-
+      while ItemsConsumed < WorkTarget loop
+         Access_ItemsConsumed.Seize;
+         if ItemsConsumed < WorkTarget then
             Empty_Storage.Seize;
-            delay 0.3;
+            delay 0.25;
             Access_Storage.Seize;
-
-            if ItemsConsumed >= ItemTarget then
-               Access_Storage.Release;
-               exit;
-            end if;
 
             declare
                item : String := First_Element (Storage);
@@ -72,18 +68,15 @@ procedure Main is
 
             Access_Storage.Release;
             Full_Storage.Release;
+         end if;
+         Access_ItemsConsumed.Release;
+      end loop;
 
-         end loop;
+   end ConsumerTask;
 
-      end ConsumerTask;
-
-      Consumers : Array(1..ConsumersCount) of ConsumerTask;
-      Producers : Array(1..ProducersCount) of ProducerTask;
-
-   begin
-      null;
-   end Init;
+   Consumers : Array(1..ConsumersCount) of ConsumerTask;
+   Producers : Array(1..ProducersCount) of ProducerTask;
 
 begin
-   Init(4, 8, 3, 3);
+   null;
 end Main;

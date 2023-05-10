@@ -17,21 +17,20 @@ public class Producer implements Runnable{
     public void run() {
         while(manager.itemProduced < manager.itemTarget) {
             try {
-                manager.full.acquire();
-                Thread.sleep(random.nextInt(0, 500));
-                manager.access.acquire();
+                manager.accessProducerProduced.acquire();
+                if (manager.itemProduced < manager.itemTarget){
+                    manager.full.acquire();
+                    Thread.sleep(random.nextInt(0, 500));
+                    manager.access.acquire();
 
-                if (manager.itemProduced >= manager.itemTarget){
+                    int itemIndex = manager.put();
+                    System.out.println("Producer " + id + " added item " + itemIndex);
+                    manager.itemProduced++;
+
                     manager.access.release();
-                    return;
+                    manager.empty.release();
                 }
-
-                int itemIndex = manager.put();
-                System.out.println("Producer " + id + " added item " + itemIndex);
-                manager.itemProduced++;
-
-                manager.access.release();
-                manager.empty.release();
+                manager.accessProducerProduced.release();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

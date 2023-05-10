@@ -3,10 +3,10 @@ public class Main {
     public static void main(String[] args) {
         Main main = new Main();
 
-        int storageSize = 4;
-        int itemTarget = 8;
-        int consumers = 3;
-        int producers = 3;
+        final int storageSize = 8;
+        final int itemTarget = 64;
+        final int consumers = 2;
+        final int producers = 2;
 
         main.init(storageSize, itemTarget, consumers, producers);
     }
